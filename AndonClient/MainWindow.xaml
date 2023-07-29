@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AndonClient"
         mc:Ignorable="d"
-        Title="AndonClient" Height="450" Width="800">
+        Title="AndonClient" Height="192" Width="386" ResizeMode="NoResize">
     <Grid>
+        <StackPanel x:Name="Buttons_Panel" Orientation="Horizontal" Margin="15">
+            <Button Height="100" Width="100" Margin="7" Background="Green">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Height="100" Width="100" Margin="7" Background="Yellow">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Height="100" Width="100" Margin="7" Background="Red">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    
 
     </Grid>
 </Window>

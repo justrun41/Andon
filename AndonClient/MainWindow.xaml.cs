@@ -25,6 +25,8 @@ namespace AndonClient
         {
             InitializeComponent();
             ClientLogic.Initalize();
+           
         }
+  
     }
 }
