@@ -24,7 +24,7 @@ namespace AndonClient
         public MainWindow()
         {
             InitializeComponent();
-            UDPSend.SendData();
+            ClientLogic.Initalize();
         }
     }
 }

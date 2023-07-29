@@ -7,22 +7,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows;
 
 namespace AndonServer
 {
-    internal class ServerLogic
+    internal static class ServerLogic
     {
-        static bool Started = false;
+        private static bool Started = false;
         public static void UDPListener()
         {
             if (!Started) 
-            { 
-                UDPReceive udpReceive = new();
+            {
+                UDPReceive.AsyncAwaitUDP();
                 Started = true;
             }
-            
-
         }
-        
     }
 }

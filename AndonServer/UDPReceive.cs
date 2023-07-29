@@ -2,30 +2,35 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AndonServer
 {
-    internal class UDPReceive
+    internal static class UDPReceive
     {
-        public UDPReceive()
-        {
-            AsyncAwaitUDP();
-        }
 
-        private async void AsyncAwaitUDP()
+        public static async void AsyncAwaitUDP()
         {
             string RecievedMessage = await ReceiveMessage();
-
-
-            //List<string> Split = RecievedMessage.Split(',').ToList();
             try
             {
                 byte[] data = Convert.FromBase64String(RecievedMessage);
                 string decodedString = Encoding.UTF8.GetString(data);
                 Debug.WriteLine(decodedString);
+                List<string> Split = RecievedMessage.Split(',').ToList();
+                if (Split[0] == "Hello")
+                {
+                    Debug.WriteLine($"{Split[1]}");
+                    Helper.GetIPAddress();
+                    UDPSend.SendData(IPAddress.Parse(Split[1]), Helper.ComputerIP.ToString());
+                }
+                else
+                {
+
+                }
                 //if (!Listbox_Devices.Items.Contains(decodedString) | !Listbox_IP.Items.Contains(Split[1]))
                 //{
                 //    Listbox_Devices.Items.Add(decodedString);
@@ -40,8 +45,8 @@ namespace AndonServer
 
             AsyncAwaitUDP();
         }
-        string dataRec = string.Empty;
-        private async Task<string> ReceiveMessage()
+        private static string dataRec = string.Empty;
+        private static async Task<string> ReceiveMessage()
         {
             dataRec = string.Empty;
             await Task.Run(async () =>
@@ -56,5 +61,6 @@ namespace AndonServer
             });
             return dataRec;
         }
+        
     }
 }

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\AndonServer\Helper.cs" Link="Helper.cs" />
     <Compile Include="..\AndonServer\UDPReceive.cs" Link="UDPReceive.cs" />
     <Compile Include="..\AndonServer\UDPSend.cs" Link="UDPSend.cs" />
   </ItemGroup>
