@@ -25,12 +25,13 @@ namespace AndonServer
                 {
                     Debug.WriteLine($"{Split[1]}");
                     Helper.GetIPAddress();
-                    UDPSend.SendData(IPAddress.Parse(Split[1]), Helper.ComputerIP.ToString());
+                    UDPSend.SendData(IPAddress.Parse(Split[1]), $"OK{Helper.ComputerIP}");
                 }
-                else
+                else if (Split[1].Contains("OK"))
                 {
-
+                    Helper.ServerIP = IPAddress.Parse(Split[1].Remove(0,2));
                 }
+
                 //if (!Listbox_Devices.Items.Contains(decodedString) | !Listbox_IP.Items.Contains(Split[1]))
                 //{
                 //    Listbox_Devices.Items.Add(decodedString);

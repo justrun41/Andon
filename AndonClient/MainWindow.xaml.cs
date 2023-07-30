@@ -25,8 +25,14 @@ namespace AndonClient
         {
             InitializeComponent();
             ClientLogic.Initalize();
-           
         }
-  
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)sender;
+            ClientLogic.ButtonLogic(b);            
+        }
+
+
     }
 }
