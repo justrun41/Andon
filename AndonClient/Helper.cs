@@ -6,11 +6,12 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AndonServer
+namespace AndonClient
 {
-    internal static class Helper
+    internal class Helper
     {
-        public static IPAddress? ComputerIP  { get; private set; }
+        public static IPAddress? ComputerIP { get; private set; }
+        public static IPAddress? ServerIP { get; set; }
         public static void GetIPAddress()
         {
             try

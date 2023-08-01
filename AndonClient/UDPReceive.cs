@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AndonServer
+namespace AndonClient
 {
-    internal static class UDPReceive
+    internal class UDPReceive
     {
-
         public static async void AsyncAwaitUDP()
         {
             string RecievedMessage = await ReceiveMessage();
@@ -21,27 +20,17 @@ namespace AndonServer
                 string decodedString = Encoding.UTF8.GetString(data);
                 Debug.WriteLine(decodedString);
                 List<string> Split = decodedString.Split(',').ToList();
-                if (decodedString.Contains("Client"))
+                if (decodedString.Contains("OK"))
                 {
-                    //Debug.WriteLine($"{Split[1]}");
-                    Helper.GetIPAddress();
-                    UDPSend.SendData(IPAddress.Parse(Split[1]), $"OK,{Helper.ComputerIP}");
+                    Helper.ServerIP = IPAddress.Parse(Split[1]);
                 }
                 else
                 {
-
+                    Debug.WriteLine(decodedString);
                 }
 
-                //else if (decodedString.Contains("OK"))
-                //{
-                //    Helper.ServerIP = IPAddress.Parse(Split[1]);
-                //}
+     
 
-                //if (!Listbox_Devices.Items.Contains(decodedString) | !Listbox_IP.Items.Contains(Split[1]))
-                //{
-                //    Listbox_Devices.Items.Add(decodedString);
-                //    Listbox_IP.Items.Add(Split[1]);
-                //}
             }
             catch (Exception)
             {
@@ -57,17 +46,15 @@ namespace AndonServer
             dataRec = string.Empty;
             await Task.Run(async () =>
             {
-                using var udpClient = new UdpClient(11000);
+                using var udpClient = new UdpClient(11001);
                 while (true)
                 {
                     UdpReceiveResult receivedResult = await udpClient.ReceiveAsync();
-                    Debug.WriteLine(receivedResult.RemoteEndPoint);
                     dataRec = Encoding.ASCII.GetString(receivedResult.Buffer);
                     return dataRec;
                 }
             });
             return dataRec;
         }
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿using AndonServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -16,12 +15,13 @@ namespace AndonClient
         
         public static void Initalize()
         {
+            UDPReceive.AsyncAwaitUDP();
             FindServer();
         }
         private static void FindServer()
         {
             Helper.GetIPAddress();
-            UDPSend.SendData(IPAddress.Broadcast,$"Hello,{Helper.ComputerIP}");
+            UDPSend.SendData(IPAddress.Broadcast,$"Client,{Helper.ComputerIP}");
             Debug.WriteLine(Helper.ComputerIP);
         }
 

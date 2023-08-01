@@ -22,8 +22,17 @@ namespace AndonServer
     {
         public MainWindow()
         {
-            InitializeComponent();
-            ServerLogic.UDPListener();
+            try
+            {
+                InitializeComponent();
+                ServerLogic.UDPListener();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}   {ex.StackTrace}");
+                throw;
+            }
+           
         }
     }
 }

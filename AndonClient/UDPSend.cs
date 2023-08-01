@@ -6,11 +6,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AndonServer
+namespace AndonClient
 {
     internal static class UDPSend
     {
-        const int SendPort = 11001;
+        const int SendPort = 11000;
         public static void SendData(IPAddress IP, string DataToSend)
         {
             if (IP != null)
@@ -24,7 +24,8 @@ namespace AndonServer
                 }
                 udpClient.SendTo(sendBytes, ep);
                 udpClient.Close();
-             }
+            }
         }
     }
+
 }
