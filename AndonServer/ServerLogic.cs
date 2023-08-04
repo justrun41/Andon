@@ -14,11 +14,12 @@ namespace AndonServer
     internal static class ServerLogic
     {
         private static bool Started = false;
-        public static void UDPListener()
+        public static void Listener()
         {
             if (!Started) 
             {
-                UDPReceive.AsyncAwaitUDP();
+                Helper.GetIPAddress();
+                TCPReceiver.BeginListen();
                 Started = true;
             }
         }

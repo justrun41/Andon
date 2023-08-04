@@ -25,7 +25,7 @@ namespace AndonServer
             try
             {
                 InitializeComponent();
-                ServerLogic.UDPListener();
+                ServerLogic.Listener();
             }
             catch (Exception ex)
             {
