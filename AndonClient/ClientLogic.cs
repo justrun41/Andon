@@ -13,10 +13,11 @@ namespace AndonClient
 {
     internal  class ClientLogic
     {
+        private static string? ComputerName { get; set; }
 
         public static void Initalize()
         {
-         
+            ComputerName = Dns.GetHostName();
             TCPSend.Connect("192.0.0.1", "TestMessage");
 
         }
@@ -27,14 +28,17 @@ namespace AndonClient
             {
                 case "#FF008000":
                     Debug.Write("Green");
+                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Green");
                     //UDPSend.SendData(Helper.ServerIP,"Green");
                     break;
                 case "#FFFFFF00":
                     Debug.Write("Yellow");
+                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Yellow");
                     //UDPSend.SendData(Helper.ServerIP, "Yellow");
                     break;
                 case "#FFFF0000":
                     Debug.Write("Red");
+                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Red");
                     //UDPSend.SendData(Helper.ServerIP, "Red");
                     break;
                 default:

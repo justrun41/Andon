@@ -33,5 +33,27 @@ namespace AndonClient
                 throw;
             }
         }
+        public string CurrentColor { get; private set; }
+        public static void SetCurrentColor(string color)
+        {
+            //color = color.ToLower();
+            //switch (color)
+            //{
+            //    case "green":
+
+            //        break;
+            //    case "yellow":
+
+            //        break;
+            //    case "red":
+
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+        }
+
+        
     }
 }
