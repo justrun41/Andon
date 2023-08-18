@@ -8,44 +8,52 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace AndonClient
 {
     internal  class ClientLogic
     {
         private static string? ComputerName { get; set; }
+        private static string? ServerName { get; set; }
 
         public static void Initalize()
         {
-            ComputerName = Dns.GetHostName();
-            TCPSend.Connect("192.0.0.1", "TestMessage");
-
+            try
+            {
+                ComputerName = Dns.GetHostName();
+                XmlDocument xmlServerConn = new();
+                xmlServerConn.Load("ServerConnection.xml");
+                XmlNodeList nodes = xmlServerConn.DocumentElement.SelectNodes("/AndonServer");
+                foreach (XmlNode node in nodes)
+                {
+                    ServerName = node.SelectSingleNode("ComputerName").InnerText;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
   
         public static void ButtonLogic(Button b)
         {
             switch (b.Background.ToString())
             {
-                case "#FF008000":
-                    Debug.Write("Green");
-                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Green");
-                    //UDPSend.SendData(Helper.ServerIP,"Green");
+                case "#FF008000":  //Green
+                     TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},ColorCode:Green");
                     break;
-                case "#FFFFFF00":
-                    Debug.Write("Yellow");
-                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Yellow");
-                    //UDPSend.SendData(Helper.ServerIP, "Yellow");
+                case "#FFFFFF00": //Yellow
+                    TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},ColorCode:Yellow");
                     break;
-                case "#FFFF0000":
-                    Debug.Write("Red");
-                    TCPSend.Connect("192.0.0.1", $"ComputerName:{ComputerName},ColorCode:Red");
-                    //UDPSend.SendData(Helper.ServerIP, "Red");
+                case "#FFFF0000": //Red
+                    TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},ColorCode:Red");
                     break;
                 default:
                     break;
             }
         }
-
         ////Buttons_Panel.Background = new SolidColorBrush(Colors.Red);
     }
 }
