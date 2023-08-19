@@ -19,6 +19,7 @@ namespace AndonServer
 
         private static void Listener()
         {
+            
             TcpListener? server = null;
             try
             {
@@ -59,7 +60,8 @@ namespace AndonServer
                         // Translate data bytes to a ASCII string.
                         //data = Encoding.ASCII.GetString(bytes, 0, i);
                         data = Encoding.UTF8.GetString(Convert.FromBase64String(Encoding.ASCII.GetString(bytes, 0, i)));
-                        Debug.WriteLine("Received: {0}", data);
+                        Debug.WriteLine($"Received: {data}");
+                        ServerLogic.ClientDataSorter(data);
 
                         // Process the data sent by the client.
                         data = data.ToUpper();

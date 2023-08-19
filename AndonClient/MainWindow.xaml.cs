@@ -30,7 +30,5 @@ namespace AndonClient
             Button b = (Button)sender;
             ClientLogic.ButtonLogic(b);            
         }
-
-
     }
 }
