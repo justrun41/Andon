@@ -24,38 +24,44 @@ namespace AndonServer
         {
             string[] s = data.Split(',');
             string _ComputerName = s[0].Remove(0, s[0].IndexOf(':'));
+            string _ColorCode = s[1].Remove(0, s[1].IndexOf(':'));
             string? reply = null;
             try
             {
+                Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
+                if (data.Contains("WhatsMyColor"))
+                {
+                    if (found != null)
+                    {
+                        return found.ColorCode;
+                    }
+                    //if found is null, add to list "green"?  //this is getting ugly...refactor somehow
+                }
+
+
                 if (data.Contains("ColorCode"))
                 {
-                    
-                    ClientDataList.Add(new Models.ClientData
-                    {
-                        ComputerName = _ComputerName, 
-                        ColorCode = s[1].Remove(0, s[1].IndexOf(':'))
-                    });
+                    AddToOrUpdateList(_ComputerName, _ColorCode, found);
+                   
                 }
-                else if (data.Contains("WhatsMyColor"))
-                {
-                    try
-                    {
-                        Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
-                        reply = found.ColorCode;
-                    }
-                    catch (Exception ex)
-                    {
-
-
-                        Debug.WriteLine(ex.Message);                    }
-                    
-                }
-                return reply;
+           
+                //return reply;
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private static void AddToOrUpdateList(string _ComputerName, string _ColorCode, Models.ClientData found)
+        {
+
+
+            ClientDataList.Add(new Models.ClientData
+            {
+                ComputerName = _ComputerName,
+                ColorCode = _ColorCode
+            });
         }
     }
 }
