@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 
 namespace AndonServer
 {
@@ -36,8 +38,17 @@ namespace AndonServer
                 }
                 else if (data.Contains("WhatsMyColor"))
                 {
-                    Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
-                    reply = found.ColorCode;
+                    try
+                    {
+                        Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
+                        reply = found.ColorCode;
+                    }
+                    catch (Exception ex)
+                    {
+
+
+                        Debug.WriteLine(ex.Message);                    }
+                    
                 }
                 return reply;
             }
