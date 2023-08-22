@@ -8,8 +8,8 @@ namespace AndonServer.Models
 {
      internal class ClientData : IEquatable<ClientData>
     {
-        public string ComputerName { get; set; }
-        public string ColorCode { get; set; }
+        public required string ComputerName { get; set; }
+        public string? ColorCode { get; set; }
         public bool Equals(ClientData other)
         {
             return other != null && ClientData.Equals(other.ComputerName, StringComparison.Ordinal);

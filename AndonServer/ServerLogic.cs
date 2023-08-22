@@ -18,17 +18,28 @@ namespace AndonServer
                 Started = true;
             }
         }
-        public static void ClientDataSorter(string data)
+        public static string ClientDataSorter(string data)
         {
+            string[] s = data.Split(',');
+            string _ComputerName = s[0].Remove(0, s[0].IndexOf(':'));
+            string? reply = null;
             try
             {
-                List<string> TempList = data.Split(',').ToList();
-                ClientDataList.Add(new Models.ClientData
+                if (data.Contains("ColorCode"))
                 {
-                    ComputerName = TempList[0],  //pulls in ComputerName:{ComputerName}   alter?
-                                                 //ColorCode:Green
-                    ColorCode = TempList[1]
-                });
+                    
+                    ClientDataList.Add(new Models.ClientData
+                    {
+                        ComputerName = _ComputerName, 
+                        ColorCode = s[1].Remove(0, s[1].IndexOf(':'))
+                    });
+                }
+                else if (data.Contains("WhatsMyColor"))
+                {
+                    Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
+                    reply = found.ColorCode;
+                }
+                return reply;
             }
             catch (Exception)
             {

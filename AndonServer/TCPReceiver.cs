@@ -61,7 +61,8 @@ namespace AndonServer
                         //data = Encoding.ASCII.GetString(bytes, 0, i);
                         data = Encoding.UTF8.GetString(Convert.FromBase64String(Encoding.ASCII.GetString(bytes, 0, i)));
                         Debug.WriteLine($"Received: {data}");
-                        ServerLogic.ClientDataSorter(data);
+                        string reply = ServerLogic.ClientDataSorter(data);
+                        if (reply != null) { data = reply; }
 
                         // Process the data sent by the client.
                         data = data.ToUpper();

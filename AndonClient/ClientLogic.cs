@@ -16,6 +16,7 @@ namespace AndonClient
     internal  class ClientLogic
     {
         private static string? ComputerName { get; set; }
+        public static string CurrentColor { get; set; }
         private static string? ServerName { get; set; }
 
         public static void Initalize()
@@ -30,13 +31,17 @@ namespace AndonClient
                 {
                     ServerName = node.SelectSingleNode("ComputerName").InnerText;
                 }
+                TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},WhatsMyColor"); 
             }
             catch (Exception)
             {
                 throw;
             }
         }
-  
+        //private static void GetCurrentColor()
+        //{
+        //    TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},WhatsMyColor");
+        //}
         public static void ButtonLogic(Button b)
         {
             switch (b.Background.ToString())

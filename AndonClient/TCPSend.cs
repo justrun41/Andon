@@ -14,13 +14,13 @@ namespace AndonClient
         {
             try
             {
-                
+
                 int port = 13076;
                 using TcpClient client = new(server, port);
-                byte[] data =  Encoding.ASCII.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(message)));
+                byte[] data = Encoding.ASCII.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(message)));
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
-                
+
                 Debug.WriteLine("Sent: {0}", message);
 
                 // Receive the server response.
@@ -34,6 +34,11 @@ namespace AndonClient
                 // Read the first batch of the TcpServer response bytes.
                 int bytes = stream.Read(data, 0, data.Length);
                 responseData = Encoding.ASCII.GetString(data, 0, bytes);
+                if (responseData.Contains("Green") || responseData.Contains("Yellow") || responseData.Contains("Red"))
+                {
+                    ClientLogic.CurrentColor = responseData;
+                }
+
                 Debug.WriteLine("Received: {0}", responseData);
             }
             catch (ArgumentNullException e)
