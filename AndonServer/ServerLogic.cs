@@ -23,45 +23,47 @@ namespace AndonServer
         public static string ClientDataSorter(string data)
         {
             string[] s = data.Split(',');
-            string _ComputerName = s[0].Remove(0, s[0].IndexOf(':'));
-            string _ColorCode = s[1].Remove(0, s[1].IndexOf(':'));
+            string _ComputerName = s[0].Remove(0, s[0].IndexOf(':') + 1);
+            string _ColorCode = s[1].Remove(0, s[1].IndexOf(':') + 1);
             string? reply = null;
-            try
+            Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
+            switch (_ColorCode)
             {
-                Models.ClientData found = ClientDataList.Find(x => x.ComputerName == _ComputerName);
-                if (data.Contains("WhatsMyColor"))
-                {
+                case "WhatsMyColor":
                     if (found != null)
                     {
                         return found.ColorCode;
                     }
-                    //if found is null, add to list "green"?  //this is getting ugly...refactor somehow
-                }
-
-
-                if (data.Contains("ColorCode"))
-                {
-                    AddToOrUpdateList(_ComputerName, _ColorCode, found);
-                   
-                }
-           
-                //return reply;
+                    else
+                    {
+                        AddToList(_ComputerName, _ColorCode);
+                        return "Green";
+                    }
+                case "Green":
+                case "Yellow":
+                case "Red":
+                    if (found != null)
+                    {
+                        found.ColorCode = _ColorCode;
+                    }
+                    else
+                    {
+                        AddToList(_ComputerName, _ColorCode);
+                    }
+                    break;
+                default:
+                    break;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            return reply;
         }
-
-        private static void AddToOrUpdateList(string _ComputerName, string _ColorCode, Models.ClientData found)
+        private static void AddToList(string _ComputerName, string _ColorCode)
         {
-
-
             ClientDataList.Add(new Models.ClientData
             {
                 ComputerName = _ComputerName,
                 ColorCode = _ColorCode
             });
         }
+
     }
 }

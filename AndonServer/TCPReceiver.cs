@@ -68,14 +68,14 @@ namespace AndonServer
                         }
 
                         // Process the data sent by the client.
-                        data = data.ToUpper();
+                        //data = data.ToUpper();
 
                         byte[] msg = Encoding.ASCII.GetBytes(data);
                         
 
                         // Send back a response.
                         stream.Write(msg, 0, msg.Length);
-                        Debug.WriteLine("Sent: {0}", data);
+                        Debug.WriteLine($"Sent: {data}");
                     }
                 }
             }

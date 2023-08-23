@@ -38,10 +38,6 @@ namespace AndonClient
                 throw;
             }
         }
-        //private static void GetCurrentColor()
-        //{
-        //    TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},WhatsMyColor");
-        //}
         public static void ButtonLogic(Button b)
         {
             switch (b.Background.ToString())

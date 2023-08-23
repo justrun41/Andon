@@ -34,12 +34,13 @@ namespace AndonClient
                 // Read the first batch of the TcpServer response bytes.
                 int bytes = stream.Read(data, 0, data.Length);
                 responseData = Encoding.ASCII.GetString(data, 0, bytes);
+
                 if (responseData.Contains("Green") || responseData.Contains("Yellow") || responseData.Contains("Red"))
                 {
                     ClientLogic.CurrentColor = responseData;
                 }
 
-                Debug.WriteLine("Received: {0}", responseData);
+                Debug.WriteLine($"Received: {responseData}");
             }
             catch (ArgumentNullException e)
             {
