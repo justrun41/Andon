@@ -36,19 +36,15 @@ namespace AndonServer
                 byte[] bytes = new Byte[256];
                 string? data = null;
 
-                // Enter the listening loop.
                 while (true)
                 {
                     Debug.Write("Waiting for a connection... ");
 
-                    // Perform a blocking call to accept requests.
-                    // You could also use server.AcceptSocket() here.
                     using TcpClient client = server.AcceptTcpClient();
                     Debug.WriteLine("Connected!");
 
                     data = null;
 
-                    // Get a stream object for reading and writing
                     NetworkStream stream = client.GetStream();
                     
                     int i;
