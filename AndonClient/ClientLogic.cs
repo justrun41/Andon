@@ -31,7 +31,7 @@ namespace AndonClient
                 {
                     ServerName = node.SelectSingleNode("ComputerName").InnerText;
                 }
-                TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},WhatsMyColor"); 
+                TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},ColorCode:WhatsMyColor"); 
             }
             catch (Exception)
             {
