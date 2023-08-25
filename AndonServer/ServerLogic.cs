@@ -42,11 +42,12 @@ namespace AndonServer
                 case "Green":
                 case "Yellow":
                 case "Red":
-                    if (found != null)
+                    if (found != null && found.ColorCode != _ColorCode)
                     {
                         found.ColorCode = _ColorCode;
+                        found.IsChanged = true;
                     }
-                    else
+                    else if (found == null)
                     {
                         AddToList(_ComputerName, _ColorCode);
                     }
@@ -61,7 +62,8 @@ namespace AndonServer
             ClientDataList.Add(new Models.ClientData
             {
                 ComputerName = _ComputerName,
-                ColorCode = _ColorCode
+                ColorCode = _ColorCode,
+                IsChanged = true
             });
         }
 

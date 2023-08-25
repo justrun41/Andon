@@ -10,6 +10,7 @@ namespace AndonServer.Models
     {
         public required string ComputerName { get; set; }
         public string? ColorCode { get; set; }
+        public bool IsChanged { get; set; }
         public bool Equals(ClientData other)
         {
             return other != null && ClientData.Equals(other.ComputerName, StringComparison.Ordinal);
