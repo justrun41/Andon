@@ -72,10 +72,12 @@ namespace AndonServer
         }
         private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.
         {
-            _ = ClientDataList.Where(x => x.ComputerName == _ComputerName).Select(x => { x.XCoordinate = XCoor; x.YCoordinate = YCoor; return 0; });
+            _ = ClientDataList.Where(x => x.ComputerName == _ComputerName).Select(x => { x.XCoordinate = XCoor; x.YCoordinate = YCoor; x.CoordinatesChanged = true; return 0; });
         }
 
-        //update database on a timer from the changedclientdatalist, then clear out that list.  Add to database table for changes and update color in database table for AndonClients
+        //update database on a timer from the ChangedClientDataList and from coordinates of ClientDataList, then clear out that list if successful
+        // Add to database table for changes and update color in database table for AndonClients
+        //after update, set CoordinatesChanged to false
 
     }
 }
