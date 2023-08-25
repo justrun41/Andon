@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace AndonServer
 {
@@ -10,12 +11,14 @@ namespace AndonServer
     {
         private static bool Started = false;
         private static List<Models.ClientData>? ClientDataList { get; set; }
+        private static List<Models.ClientData>? ChangedClientDataList { get; set; }
         public static void Listener()
         {
             if (!Started) 
             {
                 Helper.GetIPAddress();
                 ClientDataList = new();
+                ChangedClientDataList = new();
                 TCPReceiver.BeginListen();
                 Started = true;
             }
@@ -36,7 +39,8 @@ namespace AndonServer
                     }
                     else
                     {
-                        AddToList(_ComputerName, _ColorCode);
+                        AddToList(ClientDataList, _ComputerName, "Green");
+                        AddToList(ChangedClientDataList, _ComputerName, "Green");
                         return "Green";
                     }
                 case "Green":
@@ -45,11 +49,12 @@ namespace AndonServer
                     if (found != null && found.ColorCode != _ColorCode)
                     {
                         found.ColorCode = _ColorCode;
-                        found.IsChanged = true;
+                        AddToList(ChangedClientDataList, _ComputerName, _ColorCode);
                     }
                     else if (found == null)
                     {
-                        AddToList(_ComputerName, _ColorCode);
+                        AddToList(ClientDataList, _ComputerName, _ColorCode);
+                        AddToList(ChangedClientDataList, _ComputerName, _ColorCode);
                     }
                     break;
                 default:
@@ -57,15 +62,20 @@ namespace AndonServer
             }
             return reply;
         }
-        private static void AddToList(string _ComputerName, string _ColorCode)
+        private static void AddToList(List<Models.ClientData> list, string _ComputerName, string _ColorCode)
         {
-            ClientDataList.Add(new Models.ClientData
+            list.Add(new Models.ClientData
             {
                 ComputerName = _ComputerName,
-                ColorCode = _ColorCode,
-                IsChanged = true
+                ColorCode = _ColorCode
             });
         }
+        private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.
+        {
+            _ = ClientDataList.Where(x => x.ComputerName == _ComputerName).Select(x => { x.XCoordinate = XCoor; x.YCoordinate = YCoor; return 0; });
+        }
+
+        //update database on a timer from the changedclientdatalist, then clear out that list.  Add to database table for changes and update color in database table for AndonClients
 
     }
 }
