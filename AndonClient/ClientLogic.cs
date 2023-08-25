@@ -23,6 +23,7 @@ namespace AndonClient
         {
             try
             {
+                Helper.Retry = true;
                 ComputerName = Dns.GetHostName();
                 XmlDocument xmlServerConn = new();
                 xmlServerConn.Load("ServerConnection.xml");
@@ -32,6 +33,7 @@ namespace AndonClient
                     ServerName = node.SelectSingleNode("ComputerName").InnerText;
                 }
                 TCPSend.Connect(ServerName, $"ComputerName:{ComputerName},ColorCode:WhatsMyColor"); 
+
             }
             catch (Exception)
             {

@@ -10,6 +10,7 @@ namespace AndonClient
 {
     internal class Helper
     {
+        public static bool Retry { get; set; }
         public static IPAddress? ComputerIP { get; private set; }
         public static IPAddress? ServerIP { get; set; }
         public static void GetIPAddress()

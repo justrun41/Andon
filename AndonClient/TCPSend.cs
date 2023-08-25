@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AndonClient
 {
     internal static class TCPSend
     {
+        
         public static void Connect(string server, string message)
         {
             try
@@ -22,16 +26,9 @@ namespace AndonClient
                 stream.Write(data, 0, data.Length);
 
                 Debug.WriteLine("Sent: {0}", message);
-
-                // Receive the server response.
-
-                // Buffer to store the response bytes.
                 data = new byte[256];
-
-                // String to store the response ASCII representation.
                 string responseData = string.Empty;
 
-                // Read the first batch of the TcpServer response bytes.
                 int bytes = stream.Read(data, 0, data.Length);
                 responseData = Encoding.ASCII.GetString(data, 0, bytes);
 
@@ -48,8 +45,24 @@ namespace AndonClient
             }
             catch (SocketException e)
             {
-                Debug.WriteLine("SocketException: {0}", e);
+                if (Helper.Retry)
+                {
+                    Helper.Retry = false;
+                    Debug.WriteLine("SocketException: {0}", e);
+                    Debug.WriteLine("Failed to connect");
+                    MessageBox.Show($"{e.Message}  - Retrying once more.");
+                    Thread.Sleep(10000);
+                    Connect(server, message);
+
+                }
+                else
+                {
+                    MessageBox.Show("Failed to Connect.  Contact IT.");
+                    Environment.Exit(0);
+                }
+                
             }
+
         }
     }
 }
