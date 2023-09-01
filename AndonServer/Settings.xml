@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Connect>
-	<Secure>mongodb://andon-mtas:sB2a9dgA3hK1GvBnrMsc040uEdOKOo1Vxrw5jZe9sXrgx189cYzCv2w0yzNieO5W3XoA4ocp763UACDbWjoL3g%3D%3D@andon-mtas.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@andon-mtas@</Secure>
+	<Secure>ConnectionStringGoesHere</Secure>
 </Connect>
