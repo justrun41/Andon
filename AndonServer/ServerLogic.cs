@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
+using System.Xml;
 
 namespace AndonServer
 {
@@ -17,10 +18,23 @@ namespace AndonServer
             if (!Started) 
             {
                 Helper.GetIPAddress();
+                ReadConnectionString();
                 ClientDataList = new();
                 ChangedClientDataList = new();
                 TCPReceiver.BeginListen();
                 Started = true;
+            }
+        }
+
+        private static void ReadConnectionString()
+        {
+            XmlDocument xmlServerConn = new();
+            xmlServerConn.Load("Settings.xml");
+            XmlNodeList nodes = xmlServerConn.DocumentElement.SelectNodes("/Connect");
+            foreach (XmlNode node in nodes)
+            {
+               Debug.Write(node.SelectSingleNode("Secure").InnerText);
+               Encryption.Encrypt(node.SelectSingleNode("Secure").InnerText);
             }
         }
         public static string ClientDataSorter(string data)
@@ -70,7 +84,7 @@ namespace AndonServer
                 ColorCode = _ColorCode
             });
         }
-        private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.
+        private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.  This doesn't work, probably.  Use foreach
         {
             _ = ClientDataList.Where(x => x.ComputerName == _ComputerName).Select(x => { x.XCoordinate = XCoor; x.YCoordinate = YCoor; x.CoordinatesChanged = true; return 0; });
         }
