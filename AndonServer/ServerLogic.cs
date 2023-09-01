@@ -34,7 +34,7 @@ namespace AndonServer
             foreach (XmlNode node in nodes)
             {
                Debug.Write(node.SelectSingleNode("Secure").InnerText);
-               Encryption.Encrypt(node.SelectSingleNode("Secure").InnerText);
+               
             }
         }
         public static string ClientDataSorter(string data)
