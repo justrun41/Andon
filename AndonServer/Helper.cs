@@ -11,6 +11,8 @@ namespace AndonServer
     internal static class Helper
     {
         public static IPAddress? ComputerIP  { get; private set; }
+
+        public static string ConnectionString { get; set; }
         public static void GetIPAddress()
         {
             try

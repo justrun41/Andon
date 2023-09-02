@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
-using System.Windows.Documents;
 using System.Xml;
 
 namespace AndonServer
@@ -28,13 +26,14 @@ namespace AndonServer
 
         private static void ReadConnectionString()
         {
+
             XmlDocument xmlServerConn = new();
-            xmlServerConn.Load("Settings.xml");
+            xmlServerConn.Load($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Settings.xml");  //remove all but settings for live
             XmlNodeList nodes = xmlServerConn.DocumentElement.SelectNodes("/Connect");
             foreach (XmlNode node in nodes)
             {
-               Debug.Write(node.SelectSingleNode("Secure").InnerText);
-               
+               Helper.ConnectionString = $"mongodb://andon-mtas:{node.SelectSingleNode("Secure").InnerText}andon-mtas.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@andon-mtas@";
+               Debug.Write(Helper.ConnectionString);
             }
         }
         public static string ClientDataSorter(string data)
@@ -55,6 +54,7 @@ namespace AndonServer
                     {
                         AddToList(ClientDataList, _ComputerName, "Green");
                         AddToList(ChangedClientDataList, _ComputerName, "Green");
+                        SendToDB();
                         return "Green";
                     }
                 case "Green":
@@ -64,11 +64,13 @@ namespace AndonServer
                     {
                         found.ColorCode = _ColorCode;
                         AddToList(ChangedClientDataList, _ComputerName, _ColorCode);
+                        SendToDB();
                     }
                     else if (found == null)
                     {
                         AddToList(ClientDataList, _ComputerName, _ColorCode);
                         AddToList(ChangedClientDataList, _ComputerName, _ColorCode);
+                        SendToDB();
                     }
                     break;
                 default:
@@ -83,6 +85,16 @@ namespace AndonServer
                 ComputerName = _ComputerName,
                 ColorCode = _ColorCode
             });
+           
+        }
+
+        private static void SendToDB()
+        {
+            if (ChangedClientDataList.Count == 1)
+            {
+                MongoDBConnect.SendToDB(ChangedClientDataList);
+                ChangedClientDataList.Clear();
+            }
         }
         private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.  This doesn't work, probably.  Use foreach
         {
