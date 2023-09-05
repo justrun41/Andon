@@ -19,12 +19,13 @@ namespace AndonServer
             settings.SslSettings =
               new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
             var mongoClient = new MongoClient(settings);
-            IMongoDatabase db = mongoClient.GetDatabase(databaseName);
+            var db = mongoClient.GetDatabase(databaseName);
             var collection = db.GetCollection<Models.ClientData>(collectionName);
 
 
             foreach (Models.ClientData Client in UploadList)
             {
+               
                 await collection.InsertOneAsync(Client);
             }
             var results = await collection.FindAsync(_ => true);
