@@ -25,7 +25,7 @@ namespace AndonServer
 
             foreach (Models.ClientData Client in UploadList)
             {
-               
+
                 await collection.InsertOneAsync(Client);
             }
             var results = await collection.FindAsync(_ => true);

@@ -32,8 +32,8 @@ namespace AndonServer
             XmlNodeList nodes = xmlServerConn.DocumentElement.SelectNodes("/Connect");
             foreach (XmlNode node in nodes)
             {
-               Helper.ConnectionString = $"mongodb://andon-mtas:{node.SelectSingleNode("Secure").InnerText}andon-mtas.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@andon-mtas@";
-               Debug.Write(Helper.ConnectionString);
+               Helper.ConnectionString = $"mongodb://andon-mtas:{node.SelectSingleNode("Secure").InnerText}@andon-mtas.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@andon-mtas@";
+                Debug.Write(Helper.ConnectionString);
             }
         }
         public static string ClientDataSorter(string data)
@@ -93,7 +93,7 @@ namespace AndonServer
             if (ChangedClientDataList.Count == 1)
             {
                 MongoDBConnect.SendToDB(ChangedClientDataList);
-                ChangedClientDataList.Clear();
+               // ChangedClientDataList.Clear();
             }
         }
         private static void UpdateCoordinates(string _ComputerName, int XCoor, int YCoor)  //for future when Overview is written.  This doesn't work, probably.  Use foreach
